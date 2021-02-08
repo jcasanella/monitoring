@@ -24,7 +24,7 @@ public class Agent {
             }while(mBean.getThreadCount() !=0);
 
         } catch (MalformedObjectNameException | InstanceAlreadyExistsException | MBeanRegistrationException | NotCompliantMBeanException | InterruptedException ex) {
-            System.out.println("Error!!!");
+            System.out.println("Error!!! " + ex.getMessage());
         }
     }
 }

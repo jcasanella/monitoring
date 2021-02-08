@@ -87,4 +87,9 @@ COPY --from=APP_BUILD /project_code/build/libs/*.jar ./
 COPY --from=APP_BUILD /jmx_exporter/jmx_exporter/jmx_prometheus_javaagent/target/*.jar ./
 COPY --from=APP_BUILD /jmx_exporter/jmx_exporter/jmx_prometheus_httpserver/target/*.jar ./
 
+EXPOSE 8080/tcp
+
 CMD [""]
+
+ENTRYPOINT ["java", "-jar", "/app/JMXMetrics-1.0-SNAPSHOT.jar"]
+
