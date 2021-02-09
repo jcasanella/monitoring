@@ -83,13 +83,12 @@ FROM openjdk:8u212-jre-alpine3.9
 
 WORKDIR /app
 
+COPY --from=APP_BUILD /project_code/agent/agent.yaml ./
 COPY --from=APP_BUILD /project_code/build/libs/*.jar ./
-COPY --from=APP_BUILD /jmx_exporter/jmx_exporter/jmx_prometheus_javaagent/target/*.jar ./
-COPY --from=APP_BUILD /jmx_exporter/jmx_exporter/jmx_prometheus_httpserver/target/*.jar ./
+COPY --from=APP_BUILD /jmx_exporter/jmx_exporter/jmx_prometheus_javaagent/target/jmx_prometheus_javaagent_*-SNAPSHOT.jar ./
 
 EXPOSE 8080/tcp
 
 CMD [""]
 
-ENTRYPOINT ["java", "-jar", "/app/JMXMetrics-1.0-SNAPSHOT.jar"]
-
+ENTRYPOINT ["java", "-javaagent:./jmx_prometheus_javaagent-0.15.0.jar=8080:agent.yaml", "-jar", "/app/JMXMetrics-1.0-SNAPSHOT.jar"]

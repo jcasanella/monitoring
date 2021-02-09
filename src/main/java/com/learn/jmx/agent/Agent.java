@@ -1,9 +1,14 @@
 package com.learn.jmx.agent;
 
 import com.learn.jmx.metrics.SystemConfig;
+import com.learn.jmx.server.ServerFactory;
 
 import javax.management.*;
+import javax.management.remote.JMXConnectorServer;
+import javax.management.remote.JMXServiceURL;
 import java.lang.management.ManagementFactory;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class Agent {
 
@@ -12,11 +17,14 @@ public class Agent {
 
     public static void main(String[] args) {
         try {
-            MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+           // MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 
             SystemConfig mBean = new SystemConfig(DEFAULT_NO_THREADS, DEFAULT_SCHEMA);
             ObjectName name = new ObjectName("com.learn.jmx.metrics:type=SystemConfig");
-            mbs.registerMBean(mBean, name);
+          //  mbs.registerMBean(mBean, name);
+
+            JMXConnectorServer jmx = ServerFactory.start(9990);
+            jmx.getMBeanServer().registerMBean(mBean, name);
 
             do{
                 Thread.sleep(3000);

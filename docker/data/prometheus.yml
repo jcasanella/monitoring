@@ -17,3 +17,9 @@ scrape_configs:
 
     static_configs:
       - targets: ['localhost:9090']
+
+  - job_name: 'java-app'
+    metrics_path: '/'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ 'HOST_IP:8080' ]
